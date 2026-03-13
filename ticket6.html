@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Bus Ticket</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5b400">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<style>
+
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#f2f2f2;
+display:flex;
+justify-content:center;
+}
+
+.container{
+width:360px;
+padding:15px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:18px;
+margin-bottom:10px;
+}
+
+.links{
+font-size:14px;
+color:#2fa4b8;
+}
+
+.info{
+background:#e8f6ef;
+padding:12px;
+border-radius:10px;
+font-size:14px;
+color:#2e7d32;
+margin-bottom:12px;
+}
+
+.ticket{
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 5px 12px rgba(0,0,0,0.15);
+}
+
+.ticket-header{
+background:linear-gradient(#f5b400,#f2c94c);
+padding:18px;
+text-align:center;
+font-weight:bold;
+font-size:18px;
+}
+
+.timer{
+background:white;
+color:red;
+padding:4px 10px;
+border-radius:8px;
+font-weight:bold;
+}
+
+.ticket-body{
+background:linear-gradient(#f7e3a1,#f3d28a);
+padding:20px;
+position:relative;
+}
+
+.ticket-body:before,
+.ticket-body:after{
+content:"";
+position:absolute;
+top:120px;
+width:24px;
+height:24px;
+background:#f2f2f2;
+border-radius:50%;
+}
+
+.ticket-body:before{ left:-12px; }
+.ticket-body:after{ right:-12px; }
+
+.station{
+font-size:17px;
+margin:8px 0;
+}
+
+.dot{
+height:10px;
+width:10px;
+border-radius:50%;
+display:inline-block;
+margin-right:8px;
+}
+
+.green{ background:#3bb54a; }
+.red{ background:#e74c3c; }
+
+.route{
+margin-top:18px;
+color:#555;
+}
+
+.route b{
+font-size:22px;
+color:black;
+}
+
+.ac{
+display:inline-block;
+background:#e7f0ff;
+padding:6px 10px;
+border-radius:8px;
+margin-top:10px;
+font-size:14px;
+}
+
+.price{
+font-size:24px;
+margin-top:10px;
+}
+
+.validate{
+margin-top:20px;
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:linear-gradient(to right,#4cc6d7,#2aa8b6);
+color:white;
+font-size:17px;
+}
+
+.section{
+margin-top:15px;
+background:white;
+border-radius:12px;
+padding:15px;
+font-size:16px;
+cursor:pointer;
+}
+
+.content{
+display:none;
+padding:10px;
+font-size:14px;
+color:#555;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="topbar">
+<div>← Ticket details</div>
+<div class="links">Support &nbsp;&nbsp; How to use</div>
+</div>
+
+<div class="info">
+Validate your ticket to confirm your carbon savings of 326.17 g grams of CO₂e!
+</div>
+
+<div class="ticket">
+
+<div class="ticket-header">
+Ticket Activated <br>
+Validate ticket in <span class="timer" id="timer">12:00:00</span>
+</div>
+
+<div class="ticket-body">
+
+<div class="station">
+<span class="dot green"></span>
+<span id="fromStation"></span>
+</div>
+
+<div class="station">
+<span class="dot red"></span>
+<span id="toStation"></span>
+</div>
+
+<div class="route">
+Route Number <br>
+<b>214DOWN</b>
+</div>
+
+<div class="ac">❄ AC</div>
+
+<div class="price">₹ 68.46</div>
+
+<div>3 Adult</div>
+
+<button class="validate">Validate Ticket</button>
+
+</div>
+
+</div>
+
+<div class="section" onclick="toggle('details')">
+Ticket details
+</div>
+
+<div id="details" class="content">
+Passenger: 3 Adult <br>
+Fare: ₹68.46 <br>
+Route: 214DOWN
+</div>
+
+<div class="section" onclick="toggle('terms')">
+Terms and Conditions
+</div>
+
+<div id="terms" class="content">
+• Ticket valid for 12 hours <br>
+• Show ticket when asked <br>
+• Non-refundable
+</div>
+
+</div>
+
+<script>
+
+let from="Seemapuri";
+let to="Golcha Cinema";
+
+document.getElementById("fromStation").innerText=from;
+document.getElementById("toStation").innerText=to;
+
+let time=43200;
+
+let t=setInterval(function(){
+
+if(time<=0){
+clearInterval(t);
+document.getElementById("timer").innerText="Expired";
+return;
+}
+
+let h=Math.floor(time/3600);
+let m=Math.floor((time%3600)/60);
+let s=time%60;
+
+if(h<10)h="0"+h;
+if(m<10)m="0"+m;
+if(s<10)s="0"+s;
+
+document.getElementById("timer").innerText=h+":"+m+":"+s;
+
+time--;
+
+},1000);
+
+function toggle(id){
+let x=document.getElementById(id);
+x.style.display=(x.style.display==="block")?"none":"block";
+}
+
+document.body.addEventListener("click", function(){
+if(document.documentElement.requestFullscreen){
+document.documentElement.requestFullscreen();
+}
+});
+
+</script>
+
+</body>
+</html>
